@@ -1,0 +1,29 @@
+services:
+  frontend:
+    image: surtaev/time-app:1.0.0
+    restart: always
+    ports:
+      - 3000:3000
+  api:
+    image: surtaev/time-app-api:3.0.0
+    restart: always
+    ports:
+      - 5555:5000
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql
+    restart: always
+    volumes:
+      - api:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: time_db
+      MYSQL_ROOT_PASSWORD: password
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  api:
